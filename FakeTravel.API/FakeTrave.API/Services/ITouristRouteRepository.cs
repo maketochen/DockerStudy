@@ -18,6 +18,11 @@ namespace FakeTrave.API.Services
         /// 返回旅游路线
         /// </summary>
         /// <returns></returns>
-        TouristRoute GetTouristRoute(Guid TouristRouteId);
+        TouristRoute GetTouristRoute(Guid touristRouteId);
+
+        Task<bool> TouristRouteExists(Guid touristRouteId);
+
+        IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid touristRouteId);
+
     }
 }

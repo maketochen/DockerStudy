@@ -47,14 +47,24 @@ namespace FakeTrave.API.Services
            };
         }
 
-        public TouristRoute GetTouristRoute(Guid TouristRouteId)
+        public TouristRoute GetTouristRoute(Guid touristRouteId)
         {
-            return routes.FirstOrDefault(x => x.Id == TouristRouteId);
+            return routes.FirstOrDefault(x => x.Id == touristRouteId);
         }
 
         public IEnumerable<TouristRoute> GetTouristRoutes()
         {
             return routes;
+        }
+
+        public Task<bool> TouristRouteExists(Guid touristRouteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid touristRouteId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

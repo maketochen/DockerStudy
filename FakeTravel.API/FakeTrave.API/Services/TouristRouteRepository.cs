@@ -16,14 +16,24 @@ namespace FakeTrave.API.Services
             this.appDbContext = appDbContext ?? throw new ArgumentNullException(nameof(appDbContext));
         }
 
-        public TouristRoute GetTouristRoute(Guid TouristRouteId)
+        public IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid touristRouteId)
         {
-            return  appDbContext.TouristRoutes.FirstOrDefault(x => x.Id == TouristRouteId);
+            return appDbContext.TouristRoutePictures.Where(x => x.TouristRouteId == touristRouteId).ToList();
+        }
+
+        public TouristRoute GetTouristRoute(Guid touristRouteId)
+        {
+            return  appDbContext.TouristRoutes.FirstOrDefault(x => x.Id == touristRouteId);
         }
 
         public IEnumerable<TouristRoute> GetTouristRoutes()
         {
             return appDbContext.TouristRoutes;
+        }
+
+        public async Task<bool> TouristRouteExists(Guid touristRouteId)
+        {
+            return appDbContext.TouristRoutes.Any(x => x.Id == touristRouteId);
         }
     }
 }

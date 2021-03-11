@@ -26,7 +26,11 @@ namespace FakeTrave.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                //json response
+                options.ReturnHttpNotAcceptable = true;
+            }).AddXmlDataContractSerializerFormatters();
             ///保证每次操作的独立性用Transient
             //services.AddTransient<ITouristRouteRepository, MockTouristRouteRepository>();
             services.AddTransient<ITouristRouteRepository, TouristRouteRepository>();
@@ -34,6 +38,9 @@ namespace FakeTrave.API
             {
                 option.UseSqlServer(Configuration["DbContext:ConnectionString"]);
             });
+
+            //扫描profile
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
