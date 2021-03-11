@@ -27,7 +27,11 @@ namespace FakeTrave.API.Database
                 Title = "TestTitle",
                 Description = "Remarks",
                 OriginalPrice = 0,
-                CreateTime = DateTime.UtcNow
+                CreateTime = DateTime.UtcNow,
+                Rating = 3,
+                TravelDays = TravelDays.EightPlus,
+                TripType = TripType.BackPackTour,
+                DepartureCity = DepartureCity.Beijing
             });
             base.OnModelCreating(modelBuilder);
         }
