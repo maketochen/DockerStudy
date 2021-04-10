@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FakeTrave.API.Dtos;
+using FakeTrave.API.Models;
 using FakeTrave.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +23,10 @@ namespace FakeTrave.API.Controllers
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.touristRouteRepository = touristRouteRepository ?? throw new ArgumentNullException(nameof(touristRouteRepository));
         }
-
-        public async Task<IActionResult> GetPictureListForTouristRoute(Guid touristRouteId)
+        [HttpGet]
+        public IActionResult GetPictureListForTouristRouteAsync(Guid touristRouteId)
         {
-            if (!(await touristRouteRepository.TouristRouteExists(touristRouteId)))
+            if (!(touristRouteRepository.TouristRouteExists(touristRouteId)))
             {
                 return NotFound($"{touristRouteId}旅游路线不存在");
             }
@@ -36,6 +37,40 @@ namespace FakeTrave.API.Controllers
                 return NotFound("照片不存在");
             }
             return Ok(mapper.Map<IEnumerable<TouristRoutePictureDto>>(picturesFormRepo));
+        }
+        [HttpGet("{pictureId}", Name = "GetPicture")]
+        public IActionResult GetPicture(Guid touristRouteId, int pictureId)
+        {
+            if (!(touristRouteRepository.TouristRouteExists(touristRouteId)))
+            {
+                return NotFound($"{touristRouteId}旅游路线不存在");
+            }
+
+            var pictureFromRepo = touristRouteRepository.GetPicture(pictureId);
+            if (pictureFromRepo == null)
+            {
+                return NotFound("相片不存在");
+            }
+            return Ok(mapper.Map<TouristRoutePictureDto>(pictureFromRepo));
+        }
+
+        public IActionResult CreateTouristRoutePicture(
+            [FromRoute] Guid touristRouteId,
+            [FromBody] TouristRoutePictureForCreatetionDto createtionDto)
+        {
+            if (!(touristRouteRepository.TouristRouteExists(touristRouteId)))
+            {
+                return NotFound($"{touristRouteId}旅游路线不存在");
+            }
+            var pictureModel = mapper.Map<TouristRoutePicture>(createtionDto);
+            touristRouteRepository.AddTouristRoutePicture(touristRouteId, pictureModel);
+            touristRouteRepository.Save();
+            var pictureToReturn = mapper.Map<TouristRoutePictureDto>(pictureModel);
+            return CreatedAtRoute("GetPicture", new
+            {
+                touristRouteId = pictureModel.TouristRouteId,
+                pictureId = pictureModel.Id
+            }, pictureToReturn);
 
         }
     }

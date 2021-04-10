@@ -1,5 +1,6 @@
 ﻿using FakeTrave.API.Database;
 using FakeTrave.API.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,34 @@ namespace FakeTrave.API.Services
             this.appDbContext = appDbContext ?? throw new ArgumentNullException(nameof(appDbContext));
         }
 
+        public void AddTouristRoute(TouristRoute touristRoute)
+        {
+            if (touristRoute == null)
+            {
+                throw new ArgumentNullException(nameof(touristRoute));
+            }
+            appDbContext.TouristRoutes.Add(touristRoute);
+        }
+
+        public void AddTouristRoutePicture(Guid touristRouteId, TouristRoutePicture touristRoutePicture)
+        {
+            if (touristRouteId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(touristRouteId));
+            }
+            if (touristRoutePicture == null)
+            {
+                throw new ArgumentNullException(nameof(touristRoutePicture));
+            }
+            touristRoutePicture.TouristRouteId = touristRouteId;
+            appDbContext.TouristRoutePictures.Add(touristRoutePicture);
+        }
+
+        public TouristRoutePicture GetPicture(int pictureId)
+        {
+            return appDbContext.TouristRoutePictures.Where(x => x.Id == pictureId).FirstOrDefault();
+        }
+
         public IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid touristRouteId)
         {
             return appDbContext.TouristRoutePictures.Where(x => x.TouristRouteId == touristRouteId).ToList();
@@ -23,17 +52,43 @@ namespace FakeTrave.API.Services
 
         public TouristRoute GetTouristRoute(Guid touristRouteId)
         {
-            return  appDbContext.TouristRoutes.FirstOrDefault(x => x.Id == touristRouteId);
+            return appDbContext.TouristRoutes.Include(x => x.TouristRoutePictures).FirstOrDefault(x => x.Id == touristRouteId);
         }
 
-        public IEnumerable<TouristRoute> GetTouristRoutes()
+
+        public IEnumerable<TouristRoute> GetTouristRoutes(string keyword,
+            string operatorType,
+            int? ratingValue)
         {
-            return appDbContext.TouristRoutes;
+            IQueryable<TouristRoute> result = appDbContext.TouristRoutes.Include(x => x.TouristRoutePictures);
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                keyword = keyword.Trim();
+                result = result.Where(x => x.Title.Contains(keyword));
+            }
+            if (ratingValue >= 0)
+            {
+                result = operatorType switch
+                {
+                    "largerThan" => result.Where(t => t.Rating >= ratingValue),
+                    "lessThan" => result.Where(t => t.Rating <= ratingValue),
+                    _ => result.Where(t => t.Rating == ratingValue),
+                };
+            }
+
+            return result.ToList();
         }
 
-        public async Task<bool> TouristRouteExists(Guid touristRouteId)
+        public bool Save()
+        {
+            return appDbContext.SaveChanges() > 0;
+        }
+
+        public bool TouristRouteExists(Guid touristRouteId)
         {
             return appDbContext.TouristRoutes.Any(x => x.Id == touristRouteId);
         }
+
+
     }
 }

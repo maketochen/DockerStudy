@@ -57,12 +57,43 @@ namespace FakeTrave.API.Services
             return routes;
         }
 
-        public Task<bool> TouristRouteExists(Guid touristRouteId)
+
+        public IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid touristRouteId)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid touristRouteId)
+        public TouristRoutePicture GetPicture(int pictureId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TouristRoute> GetTouristRoutes(string keyword)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ITouristRouteRepository.TouristRouteExists(Guid touristRouteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TouristRoute> GetTouristRoutes(string keyword, string operatorType, int? ratingValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddTouristRoute(TouristRoute touristRoute)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddTouristRoutePicture(Guid touristRouteId, TouristRoutePicture touristRoutePicture)
         {
             throw new NotImplementedException();
         }

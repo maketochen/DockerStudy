@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FakeTrave.API.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,5 +68,7 @@ namespace FakeTrave.API.Dtos
         /// 出发地
         /// </summary>
         public string DepartureCity { get; set; }
+
+        public ICollection<TouristRoutePictureDto> TouristRoutePictures { get; set; } 
     }
 }
