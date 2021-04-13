@@ -73,10 +73,6 @@ namespace FakeTrave.API.Services
             throw new NotImplementedException();
         }
 
-        bool ITouristRouteRepository.TouristRouteExists(Guid touristRouteId)
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerable<TouristRoute> GetTouristRoutes(string keyword, string operatorType, int? ratingValue)
         {
@@ -94,6 +90,36 @@ namespace FakeTrave.API.Services
         }
 
         public void AddTouristRoutePicture(Guid touristRouteId, TouristRoutePicture touristRoutePicture)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteTouristRoute(Guid touristRouteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TouristRouteExists(Guid touristRouteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteTouristRoute(TouristRoute touristRoute)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteTouristRoutePicture(TouristRoutePicture touristRoutePicture)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TouristRoute> GetTouristRouteByIDList(IEnumerable<Guid> IDs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteTouristRoutes(IEnumerable<TouristRoute> touristRoutes)
         {
             throw new NotImplementedException();
         }

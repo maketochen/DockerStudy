@@ -40,6 +40,21 @@ namespace FakeTrave.API.Services
             appDbContext.TouristRoutePictures.Add(touristRoutePicture);
         }
 
+        public void DeleteTouristRoute(TouristRoute touristRoute)
+        {
+            appDbContext.TouristRoutes.Remove(touristRoute);
+        }
+
+        public void DeleteTouristRoutePicture(TouristRoutePicture touristRoutePicture)
+        {
+            appDbContext.TouristRoutePictures.Remove(touristRoutePicture);
+        }
+
+        public void DeleteTouristRoutes(IEnumerable<TouristRoute> touristRoutes)
+        {
+            appDbContext.TouristRoutes.RemoveRange(touristRoutes);
+        }
+
         public TouristRoutePicture GetPicture(int pictureId)
         {
             return appDbContext.TouristRoutePictures.Where(x => x.Id == pictureId).FirstOrDefault();
@@ -55,6 +70,10 @@ namespace FakeTrave.API.Services
             return appDbContext.TouristRoutes.Include(x => x.TouristRoutePictures).FirstOrDefault(x => x.Id == touristRouteId);
         }
 
+        public IEnumerable<TouristRoute> GetTouristRouteByIDList(IEnumerable<Guid> IDs)
+        {
+            return appDbContext.TouristRoutes.Where(t => IDs.Contains(t.Id)).ToList();
+        }
 
         public IEnumerable<TouristRoute> GetTouristRoutes(string keyword,
             string operatorType,

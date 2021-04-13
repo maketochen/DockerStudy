@@ -15,6 +15,8 @@ namespace FakeTrave.API.Profiles
             CreateMap<TouristRoutePicture, TouristRoutePictureDto>();
 
             CreateMap<TouristRoutePictureForCreatetionDto, TouristRoutePicture>();
+
+            CreateMap<TouristRoutePicture, TouristRoutePictureForCreatetionDto>();
         }
     }
 }

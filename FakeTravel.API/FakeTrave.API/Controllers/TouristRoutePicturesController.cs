@@ -71,7 +71,19 @@ namespace FakeTrave.API.Controllers
                 touristRouteId = pictureModel.TouristRouteId,
                 pictureId = pictureModel.Id
             }, pictureToReturn);
+        }
 
+        [HttpDelete("{pictureId}")]
+        public IActionResult DeletePicture([FromRoute] Guid touristRouteId, [FromRoute] int pictureId)
+        {
+            if (!(touristRouteRepository.TouristRouteExists(touristRouteId)))
+            {
+                return NotFound($"{touristRouteId}旅游路线不存在");
+            }
+            var picture = touristRouteRepository.GetPicture(pictureId);
+            touristRouteRepository.DeleteTouristRoutePicture(picture);
+            touristRouteRepository.Save();
+            return NoContent();
         }
     }
 }

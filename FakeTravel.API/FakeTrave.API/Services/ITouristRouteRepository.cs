@@ -37,6 +37,10 @@ namespace FakeTrave.API.Services
         void AddTouristRoute(TouristRoute touristRoute);
 
         void AddTouristRoutePicture(Guid touristRouteId,TouristRoutePicture touristRoutePicture);
+        void DeleteTouristRoute(TouristRoute touristRoute);
+        void DeleteTouristRoutes(IEnumerable<TouristRoute> touristRoutes);
         bool Save();
+        void DeleteTouristRoutePicture(TouristRoutePicture touristRoutePicture);
+        IEnumerable<TouristRoute> GetTouristRouteByIDList(IEnumerable<Guid> IDs);
     }
 }
