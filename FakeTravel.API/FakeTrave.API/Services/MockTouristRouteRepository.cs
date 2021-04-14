@@ -123,5 +123,40 @@ namespace FakeTrave.API.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<TouristRoute>> GetTouristRoutesAsync(string keyword, string operatorType, int? ratingValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TouristRoute> GetTouristRouteAsync(Guid touristRouteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> TouristRouteExistsAsync(Guid touristRouteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TouristRoutePicture>> GetPicturesByTouristRouteIdAsync(Guid touristRouteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TouristRoutePicture> GetPictureAsync(int pictureId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SaveAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TouristRoute>> GetTouristRouteByIDListAsync(IEnumerable<Guid> IDs)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

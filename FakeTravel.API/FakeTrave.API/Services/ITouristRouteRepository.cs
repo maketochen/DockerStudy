@@ -12,35 +12,35 @@ namespace FakeTrave.API.Services
         /// 返回旅游路线
         /// </summary>
         /// <returns></returns>
-        IEnumerable<TouristRoute> GetTouristRoutes(string keyword, string operatorType, int? ratingValue);
+        Task<IEnumerable<TouristRoute>> GetTouristRoutesAsync(string keyword, string operatorType, int? ratingValue);
 
         /// <summary>
         /// 返回旅游路线
         /// </summary>
         /// <returns></returns>
-        TouristRoute GetTouristRoute(Guid touristRouteId);
+        Task<TouristRoute> GetTouristRouteAsync(Guid touristRouteId);
         /// <summary>
         /// 查询指定旅游路线Id是否存在
         /// </summary>
         /// <param name="touristRouteId"></param>
         /// <returns></returns>
-        bool TouristRouteExists(Guid touristRouteId);
+        Task<bool> TouristRouteExistsAsync(Guid touristRouteId);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="touristRouteId"></param>
         /// <returns></returns>
-        IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid touristRouteId);
+        Task<IEnumerable<TouristRoutePicture>> GetPicturesByTouristRouteIdAsync(Guid touristRouteId);
 
-        TouristRoutePicture GetPicture(int pictureId);
+        Task<TouristRoutePicture> GetPictureAsync(int pictureId);
 
         void AddTouristRoute(TouristRoute touristRoute);
 
         void AddTouristRoutePicture(Guid touristRouteId,TouristRoutePicture touristRoutePicture);
         void DeleteTouristRoute(TouristRoute touristRoute);
         void DeleteTouristRoutes(IEnumerable<TouristRoute> touristRoutes);
-        bool Save();
+        Task<bool> SaveAsync();
         void DeleteTouristRoutePicture(TouristRoutePicture touristRoutePicture);
-        IEnumerable<TouristRoute> GetTouristRouteByIDList(IEnumerable<Guid> IDs);
+        Task<IEnumerable<TouristRoute>> GetTouristRouteByIDListAsync(IEnumerable<Guid> IDs);
     }
 }

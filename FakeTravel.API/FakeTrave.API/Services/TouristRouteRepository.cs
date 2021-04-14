@@ -55,27 +55,27 @@ namespace FakeTrave.API.Services
             appDbContext.TouristRoutes.RemoveRange(touristRoutes);
         }
 
-        public TouristRoutePicture GetPicture(int pictureId)
+        public async Task<TouristRoutePicture> GetPictureAsync(int pictureId)
         {
-            return appDbContext.TouristRoutePictures.Where(x => x.Id == pictureId).FirstOrDefault();
+            return await appDbContext.TouristRoutePictures.Where(x => x.Id == pictureId).FirstOrDefaultAsync();
         }
 
-        public IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid touristRouteId)
+        public async Task<IEnumerable<TouristRoutePicture>> GetPicturesByTouristRouteIdAsync(Guid touristRouteId)
         {
-            return appDbContext.TouristRoutePictures.Where(x => x.TouristRouteId == touristRouteId).ToList();
+            return await appDbContext.TouristRoutePictures.Where(x => x.TouristRouteId == touristRouteId).ToListAsync();
         }
 
-        public TouristRoute GetTouristRoute(Guid touristRouteId)
+        public async Task<TouristRoute> GetTouristRouteAsync(Guid touristRouteId)
         {
-            return appDbContext.TouristRoutes.Include(x => x.TouristRoutePictures).FirstOrDefault(x => x.Id == touristRouteId);
+            return await appDbContext.TouristRoutes.Include(x => x.TouristRoutePictures).FirstOrDefaultAsync(x => x.Id == touristRouteId);
         }
 
-        public IEnumerable<TouristRoute> GetTouristRouteByIDList(IEnumerable<Guid> IDs)
+        public async Task<IEnumerable<TouristRoute>> GetTouristRouteByIDListAsync(IEnumerable<Guid> IDs)
         {
-            return appDbContext.TouristRoutes.Where(t => IDs.Contains(t.Id)).ToList();
+            return await appDbContext.TouristRoutes.Where(t => IDs.Contains(t.Id)).ToListAsync();
         }
 
-        public IEnumerable<TouristRoute> GetTouristRoutes(string keyword,
+        public async Task<IEnumerable<TouristRoute>> GetTouristRoutesAsync(string keyword,
             string operatorType,
             int? ratingValue)
         {
@@ -95,17 +95,17 @@ namespace FakeTrave.API.Services
                 };
             }
 
-            return result.ToList();
+            return await result.ToListAsync();
         }
 
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
-            return appDbContext.SaveChanges() > 0;
+            return await appDbContext.SaveChangesAsync() > 0;
         }
 
-        public bool TouristRouteExists(Guid touristRouteId)
+        public async Task<bool> TouristRouteExistsAsync(Guid touristRouteId)
         {
-            return appDbContext.TouristRoutes.Any(x => x.Id == touristRouteId);
+            return await appDbContext.TouristRoutes.AnyAsync(x => x.Id == touristRouteId);
         }
 
 
