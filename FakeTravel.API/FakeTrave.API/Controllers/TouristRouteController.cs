@@ -4,6 +4,7 @@ using FakeTrave.API.Helper;
 using FakeTrave.API.Models;
 using FakeTrave.API.ResourceParameters;
 using FakeTrave.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -79,6 +80,8 @@ namespace FakeTrave.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+       // [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateTouristRouteAsync([FromBody] TouristRouteForCreationDto creationDto)
         {
             var touristRouteModel = mapper.Map<TouristRoute>(creationDto);

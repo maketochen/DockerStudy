@@ -13,6 +13,11 @@ using Microsoft.Extensions.Configuration;
 using FakeTrave.API.Database;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
+using FakeTrave.API.Models;
 
 namespace FakeTrave.API
 {
@@ -28,11 +33,33 @@ namespace FakeTrave.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>(); //连接上下文对象
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+                options =>
+                {
+                    var secretByte = Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]);
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = Configuration["Authentication:Issuer"],
+
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["Authentication:Audience"],
+
+                        ValidateLifetime = true, //验证token是否过期
+                        IssuerSigningKey = new SymmetricSecurityKey(secretByte)
+                    };
+                }
+                );
+
             services.AddControllers(options =>
             {
                 //json response
                 options.ReturnHttpNotAcceptable = true;
-            }).AddNewtonsoftJson(setupAction => {
+            }).AddNewtonsoftJson(setupAction =>
+            {
                 setupAction.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             })
                 .AddXmlDataContractSerializerFormatters()
@@ -74,8 +101,12 @@ namespace FakeTrave.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            //路由
             app.UseRouting();
+            //认证
+            app.UseAuthentication();
+            //授权
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
