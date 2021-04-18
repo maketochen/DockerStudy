@@ -158,5 +158,40 @@ namespace FakeTrave.API.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<ShoppingCart> GetShoppingCartByUserId(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CraeteShoppingCartAsync(ShoppingCart shoppingCart)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ShoppingCartItem(LineItem lineItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<LineItem> GetShoppingCartItemByItemId(int lineItemId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteShoppingCartItem(LineItem lineItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<LineItem>> GetShoppingCartsByIdListAsync(IEnumerable<int> Ids)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteShoppingCartItems(IEnumerable<LineItem> lineItems)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

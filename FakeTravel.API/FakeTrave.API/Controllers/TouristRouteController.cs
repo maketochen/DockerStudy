@@ -17,7 +17,7 @@ namespace FakeTrave.API.Controllers
     [ApiController]
     public class TouristRouteController : ControllerBase
     {
-        private ITouristRouteRepository touristRouteRepository;
+        private readonly ITouristRouteRepository touristRouteRepository;
         private readonly IMapper mapper;
         public TouristRouteController(ITouristRouteRepository touristRouteRepository, IMapper mapper)
         {

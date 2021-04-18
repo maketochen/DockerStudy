@@ -1,5 +1,6 @@
 ﻿using FakeTrave.API.Dtos;
 using FakeTrave.API.Models;
+using FakeTrave.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +23,14 @@ namespace FakeTrave.API.Controllers
         private readonly IConfiguration configuration;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ITouristRouteRepository touristRouteRepository;
 
-        public AuthenticateController(IConfiguration configuration, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthenticateController(IConfiguration configuration, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITouristRouteRepository touristRouteRepository)
         {
             this.configuration = configuration;
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.touristRouteRepository = touristRouteRepository;
         }
 
         [AllowAnonymous]
@@ -46,7 +49,7 @@ namespace FakeTrave.API.Controllers
                 return BadRequest();
             }
             var user = await userManager.FindByNameAsync(loginDto.Email);
-           
+
 
 
             //2.创建jwt
@@ -101,12 +104,19 @@ namespace FakeTrave.API.Controllers
             var result = await userManager.CreateAsync(user, registerDto.Password);
             if (!result.Succeeded)
             {
-                return BadRequest();
+                return BadRequest(result.Errors);
             }
-            else
+
+            var shoppingCart = new ShoppingCart()
             {
+                Id = Guid.NewGuid(),
+                UserId = user.Id
+            };
+            await touristRouteRepository.CraeteShoppingCartAsync(shoppingCart);
+            await touristRouteRepository.SaveAsync();
+
                 return Ok();
-            }
+
 
         }
     }

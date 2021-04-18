@@ -19,6 +19,10 @@ namespace FakeTrave.API.Database
 
         public DbSet<TouristRoutePicture> TouristRoutePictures { get; set; }
 
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+
+        public DbSet<LineItem> LineItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TouristRoute>().HasData(new TouristRoute()

@@ -73,6 +73,7 @@ namespace FakeTrave.API.Controllers
             }, pictureToReturn);
         }
 
+
         [HttpDelete("{pictureId}")]
         public async Task<IActionResult> DeletePicture([FromRoute] Guid touristRouteId, [FromRoute] int pictureId)
         {

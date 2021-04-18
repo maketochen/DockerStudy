@@ -10,6 +10,7 @@ namespace FakeTrave.API.Models
     {
         public string Address { get; set; }
         //shopingCart
+        public ShoppingCart ShoppingCart { get; set; }
         //Orders
 
         public virtual ICollection<IdentityUserRole<string>> UserRoles { get; set; }

@@ -40,6 +40,22 @@ namespace FakeTrave.API.Services
             appDbContext.TouristRoutePictures.Add(touristRoutePicture);
         }
 
+
+        public async Task CraeteShoppingCartAsync(ShoppingCart shoppingCart)
+        {
+            await appDbContext.ShoppingCarts.AddAsync(shoppingCart);
+        }
+
+        public void DeleteShoppingCartItem(LineItem lineItem)
+        {
+            appDbContext.LineItems.Remove(lineItem);
+        }
+
+        public void DeleteShoppingCartItems(IEnumerable<LineItem> lineItems)
+        {
+            appDbContext.LineItems.RemoveRange(lineItems);
+        }
+
         public void DeleteTouristRoute(TouristRoute touristRoute)
         {
             appDbContext.TouristRoutes.Remove(touristRoute);
@@ -63,6 +79,27 @@ namespace FakeTrave.API.Services
         public async Task<IEnumerable<TouristRoutePicture>> GetPicturesByTouristRouteIdAsync(Guid touristRouteId)
         {
             return await appDbContext.TouristRoutePictures.Where(x => x.TouristRouteId == touristRouteId).ToListAsync();
+        }
+
+        public async Task<ShoppingCart> GetShoppingCartByUserId(string userId)
+        {
+            return await appDbContext.ShoppingCarts
+                .Include(x => x.User)
+                .Include(x => x.ShoppingCartItems)
+                .ThenInclude(li => li.TouristRoute)
+                .Where(x => x.UserId == userId)
+                .FirstOrDefaultAsync();
+            
+        }
+
+        public async Task<LineItem> GetShoppingCartItemByItemId(int lineItemId)
+        {
+            return await appDbContext.LineItems.Where(x => x.Id == lineItemId).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<LineItem>> GetShoppingCartsByIdListAsync(IEnumerable<int> Ids)
+        {
+           return await appDbContext.LineItems.Where(li => Ids.Contains(li.Id)).ToListAsync();
         }
 
         public async Task<TouristRoute> GetTouristRouteAsync(Guid touristRouteId)
@@ -101,6 +138,11 @@ namespace FakeTrave.API.Services
         public async Task<bool> SaveAsync()
         {
             return await appDbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task ShoppingCartItem(LineItem lineItem)
+        {
+            await appDbContext.LineItems.AddAsync(lineItem);
         }
 
         public async Task<bool> TouristRouteExistsAsync(Guid touristRouteId)

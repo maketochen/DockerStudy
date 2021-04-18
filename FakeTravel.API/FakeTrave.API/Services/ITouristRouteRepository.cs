@@ -42,5 +42,19 @@ namespace FakeTrave.API.Services
         Task<bool> SaveAsync();
         void DeleteTouristRoutePicture(TouristRoutePicture touristRoutePicture);
         Task<IEnumerable<TouristRoute>> GetTouristRouteByIDListAsync(IEnumerable<Guid> IDs);
+
+        Task<ShoppingCart> GetShoppingCartByUserId(string userId);
+
+        Task ShoppingCartItem(LineItem lineItem);
+
+        Task<LineItem> GetShoppingCartItemByItemId(int lineItemId);
+
+        Task<IEnumerable<LineItem>> GetShoppingCartsByIdListAsync(IEnumerable<int> Ids);
+
+        void DeleteShoppingCartItems(IEnumerable<LineItem> lineItems);
+
+        void DeleteShoppingCartItem(LineItem lineItem);
+
+        Task CraeteShoppingCartAsync(ShoppingCart shoppingCart);
     }
 }
